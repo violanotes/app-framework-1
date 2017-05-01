@@ -2,8 +2,47 @@
 
 <html class="app-window">
   <head>
-    <title>B</title>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <script src="js/jquery.min.js"></script>
+    <script>
+      function getViewport() {
+
+        var viewPortWidth;
+        var viewPortHeight;
+
+        // the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
+        if (typeof window.innerWidth != 'undefined') {
+         viewPortWidth = window.innerWidth,
+         viewPortHeight = window.innerHeight
+        }
+
+        // IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
+        else if (typeof document.documentElement != 'undefined'
+        && typeof document.documentElement.clientWidth !=
+        'undefined' && document.documentElement.clientWidth != 0) {
+          viewPortWidth = document.documentElement.clientWidth,
+          viewPortHeight = document.documentElement.clientHeight
+        }
+
+        // older versions of IE
+        else {
+         viewPortWidth = document.getElementsByTagName('body')[0].clientWidth,
+         viewPortHeight = document.getElementsByTagName('body')[0].clientHeight
+        }
+        return {width: viewPortWidth, height:viewPortHeight};
+      }
+
+      $(function() {
+        var viewport = getViewport()
+        $("body").html(
+          "<p>vh: " + viewport.height + "</p>" +
+          "<p>vw: " + viewport.width + "</p>"
+        )
+
+        $(".app-window").css("height", viewport.height + "px")
+      });
+
+    </script>
     <style>
       html {
         border: 2px solid red;
@@ -11,9 +50,7 @@
       }
 
       html.app-window {
-        height:100%;
-        height: -webkit-calc(100%);
-        height: calc(100%);
+
       }
 
       body {
